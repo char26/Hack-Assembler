@@ -18,8 +18,6 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
-        SymbolTable.getAddress("INFINITELOOP");
-
     }
 
 }

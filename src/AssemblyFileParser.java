@@ -72,6 +72,7 @@ public class AssemblyFileParser {
                 currentLine++;
             }
         }
+        System.out.println(SymbolTable.getAddress("INFINITE_LOOP"));
     }
 
     public void makeSecondPass() {
