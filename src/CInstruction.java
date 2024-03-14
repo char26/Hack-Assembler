@@ -12,7 +12,7 @@ public class CInstruction {
         if (code.startsWith("@")) {
             throw new IllegalArgumentException("C instructions must not start with @");
         }
-
+        // TODO: use Gson or another library to import this data from a json file
         compCodes = new HashMap<String, String>();
         compCodes.put("0", "101010");
         compCodes.put("1", "111111");

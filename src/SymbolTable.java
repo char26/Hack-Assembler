@@ -30,7 +30,7 @@ public class SymbolTable {
         }
     }
 
-    public static int getAddress(String symbol) {
+    public static Integer getAddress(String symbol) {
         return theTable.get(symbol);
     }
 

@@ -1,7 +1,7 @@
 import java.io.FileNotFoundException;
 
 public class Main {
-    public static final String PROGRAM_NAME = "../tmp/Max";
+    public static final String PROGRAM_NAME = "../Max";
 
     public static void main(String[] args) {
         try {

@@ -19,7 +19,7 @@ public class AssemblyFileParser {
 
         fileReader = new Scanner(assemblyFile);
         makeFirstPass();
-        // makeSecondPass();
+        makeSecondPass();
         fileReader.close();
     }
 
@@ -52,38 +52,57 @@ public class AssemblyFileParser {
 
     public void makeFirstPass() {
         String rawLine, cleanLine;
+        int currentLine = 1;
         while (fileReader.hasNextLine()) {
             rawLine = fileReader.nextLine();
             cleanLine = clean(rawLine);
+            // If we encounter a label
+            if (cleanLine.startsWith("(")) {
+                try {
+                    insertLabelInSymbolTable(cleanLine, currentLine);
+                    // Once we insert the label, we can remove it.
+                    cleanLine = "";
+                } catch (Exception e) {
+                    System.err.println(e);
+                }
+            }
             if (!cleanLine.isEmpty()) {
                 cleanAssemblyCode.add(cleanLine);
+                currentLine++;
             }
         }
     }
 
     public void makeSecondPass() {
-        String cleanLine;
         int currentVariable = 16;
-        while (fileReader.hasNextLine()) {
-            cleanLine = fileReader.nextLine();
+
+        for (int i = 0; i < cleanAssemblyCode.size(); i++) {
+            String cleanLine = cleanAssemblyCode.get(i);
             // A couple of sanity checks to make sure the lines are actually clean
             assert (!cleanLine.isEmpty());
             assert (cleanLine.indexOf("//") == -1);
-            // If we encounter a label
-            if (cleanLine.startsWith("(")) {
-                try {
-                    insertLabelInSymbolTable(cleanLine, currentVariable);
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-                currentVariable++;
-            }
 
             // Handle A-Instructions
             // TODO: handle jumps using @LABEL
             if (cleanLine.startsWith("@")) {
-                AInstruction aInst = new AInstruction(cleanLine);
-                parsedAssemblyInstructions.add(aInst);
+                // If second character is a letter, we have either a jump to a label
+                // or a variable. Need to replace the name with an address
+                String firstChar = cleanLine.substring(1, 2);
+                if (firstChar.matches("[a-zA-Z]")) {
+                    if (SymbolTable.getAddress(cleanLine.substring(1)) == null) {
+                        SymbolTable.add(cleanLine.substring(1), currentVariable);
+                        currentVariable++;
+                    }
+                    // At this point we will have either just added the variable to the symbol
+                    // table,
+                    // or had already added the label in the first pass.
+                    int address = SymbolTable.getAddress(cleanLine.substring(1));
+                    cleanAssemblyCode.remove(i);
+                    cleanAssemblyCode.add(i, "@" + address);
+                }
+
+                // AInstruction aInst = new AInstruction(cleanLine);
+                // parsedAssemblyInstructions.add(aInst);
             }
             // TODO: C-Instruction
         }
