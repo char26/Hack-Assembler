@@ -29,6 +29,7 @@ public class CInstruction extends Instruction {
         compCodes.put("D+1", "0011111");
         compCodes.put("A+1", "0110111");
         compCodes.put("M+1", "1110111");
+        compCodes.put("D-1", "0001110");
         compCodes.put("A-1", "0110010");
         compCodes.put("M-1", "1110010");
         compCodes.put("D+A", "0000010");
