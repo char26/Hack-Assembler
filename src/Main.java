@@ -14,7 +14,7 @@ public class Main {
 
         try {
             AssemblyFileParser afp = new AssemblyFileParser(filePath);
-            MachineCodeWriter.writeToBinaryFile(fileName + "-bin.txt", afp.getParsedAssemblyInstructions());
+            MachineCodeWriter.writeToBinaryFile(fileName, afp.getParsedAssemblyInstructions());
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }

@@ -53,7 +53,7 @@ public class AssemblyFileParser {
 
     public void makeFirstPass() {
         String rawLine, cleanLine;
-        int currentLine = 1;
+        int currentLine = 0;
         while (fileReader.hasNextLine()) {
             rawLine = fileReader.nextLine();
             cleanLine = clean(rawLine);
