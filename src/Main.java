@@ -6,8 +6,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             AssemblyFileParser afp = new AssemblyFileParser(PROGRAM_NAME + ".asm");
-            System.out.println("Cleaned Assembly Code:");
-            System.out.println(afp);
+            MachineCodeWriter.writeToBinaryFile("machine-code.txt", afp.getParsedAssemblyInstructions());
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }

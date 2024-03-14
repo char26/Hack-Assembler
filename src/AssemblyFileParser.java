@@ -11,6 +11,7 @@ public class AssemblyFileParser {
 
     public AssemblyFileParser(String fileName) throws FileNotFoundException {
         cleanAssemblyCode = new ArrayList<>();
+        parsedAssemblyInstructions = new ArrayList<>();
 
         File assemblyFile = new File(fileName);
         if (!assemblyFile.exists() && assemblyFile.length() == 0) {
@@ -83,7 +84,6 @@ public class AssemblyFileParser {
             assert (cleanLine.indexOf("//") == -1);
 
             // Handle A-Instructions
-            // TODO: handle jumps using @LABEL
             if (cleanLine.startsWith("@")) {
                 // If second character is a letter, we have either a jump to a label
                 // or a variable. Need to replace the name with an address
@@ -99,12 +99,15 @@ public class AssemblyFileParser {
                     int address = SymbolTable.getAddress(cleanLine.substring(1));
                     cleanAssemblyCode.remove(i);
                     cleanAssemblyCode.add(i, "@" + address);
+                    cleanLine = "@" + address;
                 }
 
-                // AInstruction aInst = new AInstruction(cleanLine);
-                // parsedAssemblyInstructions.add(aInst);
+                AInstruction aInst = new AInstruction(cleanLine);
+                parsedAssemblyInstructions.add(aInst);
+            } else {
+                CInstruction cInst = new CInstruction(cleanLine);
+                parsedAssemblyInstructions.add(cInst);
             }
-            // TODO: C-Instruction
         }
     }
 
