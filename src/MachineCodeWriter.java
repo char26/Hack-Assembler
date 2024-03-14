@@ -7,7 +7,6 @@ public class MachineCodeWriter {
         try {
             FileWriter fw = new FileWriter(fileName);
             for (Instruction inst : parsedAssemblyInstructions) {
-                System.out.println(inst.machineCode);
                 fw.write(inst.machineCode + "\n");
             }
             fw.close();

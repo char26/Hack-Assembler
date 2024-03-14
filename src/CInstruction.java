@@ -29,6 +29,8 @@ public class CInstruction extends Instruction {
         compCodes.put("D+1", "0011111");
         compCodes.put("A+1", "0110111");
         compCodes.put("M+1", "1110111");
+        compCodes.put("A-1", "0110010");
+        compCodes.put("M-1", "1110010");
         compCodes.put("D+A", "0000010");
         compCodes.put("D+M", "1000010");
         compCodes.put("D-A", "0010011");
@@ -103,6 +105,7 @@ public class CInstruction extends Instruction {
         else {
             throw new Exception("Something is wrong with comp parsing logic");
         }
+        assert (comp != null);
     }
 
     public String toString() {
