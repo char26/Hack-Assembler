@@ -1,8 +1,6 @@
 import java.util.HashMap;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -19,9 +17,16 @@ public class CInstruction extends Instruction {
     private HashMap<String, String> jumpCodes;
 
     public CInstruction(String code) {
+        /**
+         * Parses the CInstruction into parts and converts the assembly
+         * into binary code.
+         *
+         * @param code string of assembly code
+         */
         if (code.startsWith("@")) {
             throw new IllegalArgumentException("C instructions must not start with @");
         }
+        // Using Gson library to parse codes.json into different HashMaps
         Path path = Paths.get("../codes.json");
         try {
             String jsonString = Files.readString(path, StandardCharsets.UTF_8);
@@ -48,6 +53,11 @@ public class CInstruction extends Instruction {
     }
 
     private void parseCodeIntoParts(String code) throws Exception {
+        /**
+         * Splits the code into dest (optional), comp, and jump (optional)
+         * 
+         * @param code assembly code string to split into parts
+         */
         int eqIndex = code.indexOf("=");
         if (eqIndex != -1) {
             dest = code.substring(0, eqIndex);
@@ -85,14 +95,21 @@ public class CInstruction extends Instruction {
     }
 
     public String toString() {
-        StringBuilder assemblyBuilder = new StringBuilder();
+        /**
+         * Returns the assembly and machine code of this instruction.
+         * 
+         * @return the string representation of this instruction.
+         */
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("Assembly[");
         if (dest != null) {
-            assemblyBuilder.append(dest + "=");
+            sBuilder.append(dest + "=");
         }
-        assemblyBuilder.append(comp);
+        sBuilder.append(comp);
         if (jump != null) {
-            assemblyBuilder.append(";" + jump);
+            sBuilder.append(";" + jump);
         }
-        return assemblyBuilder.toString();
+        sBuilder.append("], Machine[" + machineCode + "]");
+        return sBuilder.toString();
     }
 }
