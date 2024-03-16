@@ -9,12 +9,12 @@ public class AssemblyFileParser {
     private Scanner fileReader;
     private List<Instruction> parsedAssemblyInstructions;
 
+    /**
+     * Parses an assembly file into an array of Instruction objects
+     *
+     * @param fileName the file name (or file path) of the .asm file to parse
+     */
     public AssemblyFileParser(String fileName) throws FileNotFoundException {
-        /**
-         * Parses an assembly file into an array of Instruction objects
-         *
-         * @param fileName the file name (or file path) of the .asm file to parse
-         */
         cleanAssemblyCode = new ArrayList<>();
         parsedAssemblyInstructions = new ArrayList<>();
 
@@ -29,14 +29,14 @@ public class AssemblyFileParser {
         fileReader.close();
     }
 
+    /**
+     * Cleans one line of assembly code. Cleaning includes removing
+     * comments and whitespace.
+     *
+     * @param rawLine an uncleaned line of assembly code
+     * @return the cleaned line of assembly code as a string
+     */
     public String clean(String rawLine) {
-        /**
-         * Cleans one line of assembly code. Cleaning includes removing
-         * comments and whitespace.
-         *
-         * @param rawLine an uncleaned line of assembly code
-         * @return the cleaned line of assembly code as a string
-         */
         String cleanLine = rawLine.replaceAll("\\s+", " ").trim();
         // I am replacing spaces with empty strings here to account for something like
         // D = M where there are spaces between the instructions
@@ -53,13 +53,13 @@ public class AssemblyFileParser {
         return parsedAssemblyInstructions;
     }
 
+    /**
+     * Maps an assembly label to a ROM address.
+     *
+     * @param cleanLine a string of already cleaned assembly code
+     * @param address   integer address that the label should map to
+     */
     private void insertLabelInSymbolTable(String cleanLine, int address) throws Exception {
-        /**
-         * Maps an assembly label to a ROM address.
-         *
-         * @param cleanLine a string of already cleaned assembly code
-         * @param address   integer address that the label should map to
-         */
         assert cleanLine.startsWith("(");
         assert cleanLine.startsWith(")");
         int firstParen = cleanLine.indexOf("(");
@@ -71,12 +71,12 @@ public class AssemblyFileParser {
         SymbolTable.add(labelName, address);
     }
 
+    /**
+     * The first pass through the assembly file removes
+     * whitespace, maps labels to addresses, and ignores
+     * blank lines.
+     */
     public void makeFirstPass() {
-        /**
-         * The first pass through the assembly file removes
-         * whitespace, maps labels to addresses, and ignores
-         * blank lines.
-         */
         String rawLine, cleanLine;
         int currentLine = 0;
         while (fileReader.hasNextLine()) {
@@ -99,12 +99,12 @@ public class AssemblyFileParser {
         }
     }
 
+    /**
+     * The second pass through the assembly file creates
+     * Instruction objects for each line and maps variable names to
+     * addresses, starting at 16.
+     */
     public void makeSecondPass() {
-        /**
-         * The second pass through the assembly file creates
-         * Instruction objects for each line and maps variable names to
-         * addresses, starting at 16.
-         */
         int currentVariable = 16;
 
         for (int i = 0; i < cleanAssemblyCode.size(); i++) {
@@ -141,12 +141,12 @@ public class AssemblyFileParser {
         }
     }
 
+    /**
+     * Returns a string of this object's contents
+     *
+     * @return this object as a string
+     */
     public String toString() {
-        /**
-         * Returns a string of this object's contents
-         * 
-         * @return this object as a string
-         */
         StringBuilder output = new StringBuilder();
         for (String line : cleanAssemblyCode) {
             output.append(line).append("\n");

@@ -4,6 +4,7 @@ public class Main {
     public static void main(String[] args) {
         String filePath = null;
         try {
+            // Get the file path from the first argument
             filePath = args[0];
         } catch (Exception e) {
             System.err.println("Ensure arg[0] is the file path the the assembly file.");

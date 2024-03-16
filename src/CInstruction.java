@@ -16,13 +16,13 @@ public class CInstruction extends Instruction {
     private String jump;
     private HashMap<String, String> jumpCodes;
 
+    /**
+     * Parses the CInstruction into parts and converts the assembly
+     * into binary code.
+     *
+     * @param code string of assembly code
+     */
     public CInstruction(String code) {
-        /**
-         * Parses the CInstruction into parts and converts the assembly
-         * into binary code.
-         *
-         * @param code string of assembly code
-         */
         if (code.startsWith("@")) {
             throw new IllegalArgumentException("C instructions must not start with @");
         }
@@ -52,12 +52,12 @@ public class CInstruction extends Instruction {
         machineCode = "111" + compCodes.get(comp) + destCodes.get(dest) + jumpCodes.get(jump);
     }
 
+    /**
+     * Splits the code into dest (optional), comp, and jump (optional)
+     *
+     * @param code assembly code string to split into parts
+     */
     private void parseCodeIntoParts(String code) throws Exception {
-        /**
-         * Splits the code into dest (optional), comp, and jump (optional)
-         * 
-         * @param code assembly code string to split into parts
-         */
         int eqIndex = code.indexOf("=");
         if (eqIndex != -1) {
             dest = code.substring(0, eqIndex);
@@ -94,12 +94,12 @@ public class CInstruction extends Instruction {
         assert (comp != null);
     }
 
+    /**
+     * Returns the assembly and machine code of this instruction.
+     *
+     * @return the string representation of this instruction.
+     */
     public String toString() {
-        /**
-         * Returns the assembly and machine code of this instruction.
-         * 
-         * @return the string representation of this instruction.
-         */
         StringBuilder sBuilder = new StringBuilder();
         sBuilder.append("Assembly[");
         if (dest != null) {
