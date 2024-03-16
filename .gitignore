@@ -18,3 +18,4 @@ replay_pid*
 *.txt
 *.hack
 /.vscode
+.DS_Store
