@@ -3,11 +3,11 @@
 <br>
 Homework #7 for CS220: Computer Architecture & Assembly Lang<br>
 <br>
-## How to run
+## How to run (make sure to have maven installed)
 ```sh
-# Compile
-javac -cp ../dependencies/gson-2.10.1.jar:. *.java
+# Compile and install dependencies
+mvn clean install
 
 # Run (on an example file, Rect.asm)
-java -cp ../dependencies/gson-2.10.1.jar:. Main.java ../asm/Rect.asm
+mvn exec:java -Dexec.args=./asm/Rect.asm
 ```
