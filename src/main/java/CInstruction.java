@@ -27,7 +27,7 @@ public class CInstruction extends Instruction {
             throw new IllegalArgumentException("C instructions must not start with @");
         }
         // Using Gson library to parse codes.json into different HashMaps
-        Path path = Paths.get("../codes.json");
+        Path path = Paths.get("src/json/codes.json");
         try {
             String jsonString = Files.readString(path, StandardCharsets.UTF_8);
             Gson gson = new Gson();

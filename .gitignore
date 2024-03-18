@@ -16,6 +16,7 @@ replay_pid*
 
 /tmp
 *.txt
-*.hack
+*-bin.hack
 /.vscode
 .DS_Store
+/target
