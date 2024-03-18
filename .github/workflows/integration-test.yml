@@ -1,0 +1,23 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install and compile
+      run: mvn clean install
+    - name: Assemble Max.asm
+      run: mvn exec:java -Dexec.args=./asm/Max.asm
+    - name: Assemble Pong.asm
+      run: mvn exec:java -Dexec.args=./asm/Pong.asm
+    - name: Assemble Rect.asm
+      run: mvn exec:java -Dexec.args=./asm/Rect.asm
+    - name: Compare outputs
+      run: ./tests/compare-files-test.sh
